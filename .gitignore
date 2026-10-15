@@ -1,0 +1,9 @@
+.pio/
+.vscode/
+__pycache__/
+*.pyc
+src/build_id.h
+wardrobe.bin
+tools/preview/
+*.ppm
+*.png

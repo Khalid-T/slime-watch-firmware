@@ -1,0 +1,17 @@
+# THE WRIST WARDROBE's partition table (design/watch-wardrobe.md section 2;
+# built 2026-09-17, UNFLASHED). Two app slots of 3 MB (the app is ~1.5 MB
+# with NimBLE in), the ART partition (type data, subtype 0x40, 2 MB,
+# 64 KB-aligned for the flash MMU) at 0x610000, the day log's LittleFS
+# grown to what the slots gave back. nvs and otadata stay where the
+# default table had them, so the settings, the key and the doors survive
+# the reflash; spiffs MOVES, so the day files do not -- sync first
+# (README "THE WARDROBE"). The image goes on with its own flash step:
+#   esptool.py --chip esp32s3 --port /dev/ttyACM0 write_flash 0x610000 wardrobe.bin
+# Name,     Type, SubType,  Offset,   Size
+nvs,        data, nvs,      0x9000,   0x5000
+otadata,    data, ota,      0xe000,   0x2000
+app0,       app,  ota_0,    0x10000,  0x300000
+app1,       app,  ota_1,    0x310000, 0x300000
+art,        data, 0x40,     0x610000, 0x200000
+spiffs,     data, spiffs,   0x810000, 0x7E0000
+coredump,   data, coredump, 0xFF0000, 0x10000
